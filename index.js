@@ -4,6 +4,24 @@ class TaggerInputElement extends HTMLElement {
         this.attachShadow({ mode: 'open' });
     }
 
+    /**
+     * Add a new tag to the tag list
+     */
+    addTag(tagName) {
+        let tagElement = document.createElement('span');
+        tagElement.innerHTML = `
+            <span class="tag-name">${tagName}</span>
+            &nbsp;&nbsp;
+            <span class="delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg>
+            </span>
+        `;
+        tagElement.getElementsByClassName('delete')[0].addEventListener('click', () => {
+            this.tagContainer.removeChild(tagElement);
+        });
+        this.tagContainer.appendChild(tagElement);
+    }
+
     connectedCallback() {
         this.shadowRoot.innerHTML = `
             <style>
@@ -25,7 +43,7 @@ class TaggerInputElement extends HTMLElement {
                     max-width: 400px;
                     display:inline-block;
                 }
-                .tag {
+                #tag-container>span {
                     display: inline-flex;
                     align-content: center;
                     justify-content: center;
@@ -45,15 +63,38 @@ class TaggerInputElement extends HTMLElement {
                     color: #2c5777;
                     margin: 2px;
                     font-size: 12px;
+                    overflow: hidden;
+                    vertical-align: middle;
+                }
+                .delete {
+                    margin-top: 1px;
+                    cursor: pointer;
+                }
+                .delete:hover{
+                    opacity: .7;
+                }
+                .delete:active {
+                    opacity: .9;
                 }
             </style>
             <span id="tag-container">
-                <span class="tag">Angular</span>
-                <span class="tag">JSX</span>
             </span>
             <span id="input" contenteditable="true"></span>
         `;
-        var inputElement = this.shadowRoot.getElementById('input');
+        this.tagContainer = this.shadowRoot.getElementById('tag-container');
+        this.inputElement = this.shadowRoot.getElementById('input');
+
+        this.inputElement.addEventListener('keydown', (event) => {
+            //add the new tag
+            if (event.key === 'Enter') {
+                this.addTag(this.inputElement.innerText.trim());
+                this.inputElement.innerHTML = '';
+                event.preventDefault();
+                //if they click the back space at an empty text prompt, delete the last tag added
+            } else if (event.key === 'Backspace' && !this.inputElement.innerText && this.tagContainer.children.length > 0) {
+                this.tagContainer.removeChild(this.tagContainer.children[this.tagContainer.children.length - 1]);
+            }
+        });
 
         //focus the textbox anytime the user clicks the element
         this.addEventListener('click', (event) => {
@@ -61,11 +102,11 @@ class TaggerInputElement extends HTMLElement {
             if (event.composedPath()[0] !== this) {
                 return;
             }
-            inputElement.focus();
+            this.inputElement.focus();
             //move caret to the end
             if (window.getSelection && document.createRange) {
                 var range = document.createRange();
-                range.selectNodeContents(inputElement);
+                range.selectNodeContents(this.inputElement);
                 range.collapse(false);
                 var sel = window.getSelection();
                 sel.removeAllRanges();
