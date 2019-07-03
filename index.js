@@ -5,9 +5,6 @@ class TaggerInputElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.addEventListener('click', () => {
-            this.shadowRoot.getElementById('input').focus();
-        });
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
@@ -26,6 +23,7 @@ class TaggerInputElement extends HTMLElement {
                     display: inline-block;
                     min-width: 30px; 
                     max-width: 400px;
+                    display:inline-block;
                 }
                 .tag {
                     display: inline-flex;
@@ -54,8 +52,26 @@ class TaggerInputElement extends HTMLElement {
                 <span class="tag">JSX</span>
             </span>
             <span id="input" contenteditable="true"></span>
-
         `;
+        var inputElement = this.shadowRoot.getElementById('input');
+
+        //focus the textbox anytime the user clicks the element
+        this.addEventListener('click', (event) => {
+            //only focus when clicking on the host element directly
+            if (event.composedPath()[0] !== this) {
+                return;
+            }
+            inputElement.focus();
+            //move caret to the end
+            if (window.getSelection && document.createRange) {
+                var range = document.createRange();
+                range.selectNodeContents(inputElement);
+                range.collapse(false);
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        });
     }
 }
 
