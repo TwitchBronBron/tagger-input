@@ -31,6 +31,7 @@ class TaggerInputElement extends HTMLElement {
                     border: 1px solid rgb(238, 238, 238);
                     border-style: inset;
                     cursor: text;
+                    min-height: 31px;
                 }
                 :host:focus{
                     outline: -webkit-focus-ring-color auto 1px;
