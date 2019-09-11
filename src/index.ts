@@ -143,7 +143,7 @@ class PlumbTaggerElement extends HTMLElement {
                 this.renderTags();
                 this.syncAttributes();
 
-                this.dispatchEvent(new CustomEvent('change', {
+                this.emitEvent(new CustomEvent('change', {
                     bubbles: false,
                     detail: this._value
                 }));
@@ -154,6 +154,26 @@ class PlumbTaggerElement extends HTMLElement {
             this._value.pop();
             this.renderTags();
             this.syncAttributes();
+
+            this.emitEvent(new CustomEvent('change', {
+                bubbles: false,
+                detail: this._value
+            }));
+        }
+    }
+
+    private emitEvent(event: CustomEvent) {
+        //try to call an attribute event handler if one exists
+        let attr = this.getAttribute(`on${event.type}`);
+        if (attr) {
+
+            //run the code in the attribute. If it's NOT a function instance, this is the actual action
+            let result = eval(`(function(event){return ${attr};})(event)`);
+
+            //if we received a function back, assume we are supposed to call that function, so pass the event to it as its first argument
+            if (typeof result === 'function') {
+                result(event);
+            }
         }
     }
 
