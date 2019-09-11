@@ -163,6 +163,9 @@ class PlumbTaggerElement extends HTMLElement {
     }
 
     private emitEvent(event: CustomEvent) {
+        //dispatch the event the normal way
+        this.dispatchEvent(event);
+
         //try to call an attribute event handler if one exists
         let attr = this.getAttribute(`on${event.type}`);
         if (attr) {

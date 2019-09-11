@@ -5,15 +5,20 @@
 </head>
 
 <body>
-    <style>
-        #input2 {
-            --plumb-tagger-tag-background-color: red;
-            --plumb-tagger-tag-color: white;
-        }
-    </style>
     <h1>Type some text and press enter to create a tag</h1>
-    <plumb-tagger id="input1" value='["Angular"]' style="max-width:300px;"></plumb-tagger>
+    <plumb-tagger id="input1" value="['Angular', 'React']" style="max-width:300px;" onchange="customChangeHandler"></plumb-tagger>
+    <br />
+    <b>Events</b>
+    <div id="event-output"></div>
     <script src="dist/index.js"></script>
+    <script>
+        function customChangeHandler(event) {
+            document.getElementById('event-output').innerHTML += '<div>onchange attribute: ' + JSON.stringify(event.detail) + '</div>';
+        }
+        document.getElementById('input1').addEventListener('change', function (event) {
+            document.getElementById('event-output').innerHTML += '<div>onchange addEventListener: ' + JSON.stringify(event.detail) + '</div>';
+        });
+    </script>
 </body>
 
 </html>
