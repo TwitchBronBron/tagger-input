@@ -4,15 +4,16 @@
     border: 1px solid rgb(238, 238, 238);
     border-style: inset;
     cursor: text;
-    min-height: 31px;
-}
-
-:host([empty]) {
-    border: 1px solid red;
+    overflow: hidden;
 }
 
 :host:focus {
     outline: -webkit-focus-ring-color auto 1px;
+}
+
+#tags-container {
+    line-height: 1;
+    vertical-align: top;
 }
 
 #input {
@@ -25,32 +26,38 @@
 }
 
 .tag {
+    vertical-align: top;
+    line-height: 1;
     display: inline-flex;
-    align-content: center;
+    align-items: center;
     justify-content: center;
     min-width: 0;
     padding-left: 4px;
     padding-right: 4px;
-    border-style: solid;
-    border-width: 1px;
+    padding-top: var(--plumb-tagger-padding, 0);
+    padding-bottom: var(--plumb-tagger-padding, 0);
+    margin-top: calc(-1 * var(--plumb-tagger-padding, 0));
+    margin-bottom: calc(-1 * var(--plumb-tagger-padding, 0));
+    border: 0;
     border-radius: 3px;
-    font-size: 12px;
-    line-height: 1.84615385;
     text-decoration: none;
     vertical-align: middle;
     white-space: nowrap;
-    border-color: transparent;
-    background-color: #E1ECF4;
-    color: #2c5777;
-    margin: 2px;
-    font-size: 12px;
+    background-color: var(--plumb-tagger-tag-background-color, #E1ECF4);
+    color: var(--plumb-tagger-tag-color, #2c5777);
     overflow: hidden;
     vertical-align: middle;
+    margin-left: 2px;
+}
+
+.tag-name {
+    margin-right: 6px;
 }
 
 .delete {
-    margin-top: 1px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .delete:hover {

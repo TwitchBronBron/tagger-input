@@ -1,15 +1,15 @@
-class TaggerInputElement extends HTMLElement {
+class PlumbTaggerElement extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
         //create the DOM structure
         this.shadowRoot.innerHTML = `
-            <style>${TaggerInputElement.styles}</style>
-            <span id="tag-container"></span>
+            <span id="tags-container"></span>
             <span id="input" contenteditable="true"></span>
+            <style>${PlumbTaggerElement.styles}</style>
             <template id="tag-template">
                 <span class="tag">
-                    <span class="tag-name"></span>&nbsp;&nbsp;
+                    <span class="tag-name"></span>
                     <span class="delete">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg>
                     </span>
@@ -22,6 +22,13 @@ class TaggerInputElement extends HTMLElement {
 
         //focus the textbox anytime the user clicks the element
         this.addEventListener('click', this.hostClick.bind(this));
+    }
+
+    connectedCallback() {
+        this._value = this.getValueFromAttribute() || [];
+
+        this.renderTags();
+        this.syncAttributes();
     }
 
     renderTags() {
@@ -43,7 +50,7 @@ class TaggerInputElement extends HTMLElement {
      * The html element where all tags get added
      */
     private get tagContainer(): HTMLSpanElement {
-        return this.shadowRoot.getElementById('tag-container');
+        return this.shadowRoot.getElementById('tags-container');
     }
 
     /**
@@ -75,7 +82,7 @@ class TaggerInputElement extends HTMLElement {
         return ['value'];
     }
 
-    private attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name, oldValue, newValue) {
         if (this.tagContainer && oldValue !== newValue) {
             if (name === 'value') {
                 let value = this.getValueFromAttribute();
@@ -107,16 +114,6 @@ class TaggerInputElement extends HTMLElement {
         }
     }
 
-    private connectedCallback() {
-        let attrValue;
-        if (attrValue = this.getValueFromAttribute()) {
-            this._value = attrValue;
-        }
-
-        this.renderTags();
-        this.syncAttributes();
-    }
-
     private getValueFromAttribute() {
         const attr = this.getAttribute('value');
         const attrValue = eval(`(function(){return ${attr};})()`);
@@ -136,15 +133,21 @@ class TaggerInputElement extends HTMLElement {
         if (event.key === 'Enter') {
             //get the tag from the input element
             let tag = this.inputElement.innerText.trim();
-            //clear the input element
-            this.inputElement.innerText = '';
+            if (tag.length > 0) {
+                //clear the input element
+                this.inputElement.innerText = '';
 
-            //save the tag
-            this._value.push(tag);
+                //save the tag
+                this._value.push(tag);
 
-            this.renderTags();
-            this.syncAttributes();
+                this.renderTags();
+                this.syncAttributes();
 
+                this.dispatchEvent(new CustomEvent('change', {
+                    bubbles: false,
+                    detail: this._value
+                }));
+            }
             event.preventDefault();
             //if they click the back space at an empty text prompt, delete the last tag added
         } else if (event.key === 'Backspace' && !this.inputElement.innerText && this.tagContainer.children.length > 0) {
@@ -177,4 +180,4 @@ class TaggerInputElement extends HTMLElement {
     }
 }
 
-window.customElements.define('tagger-input', TaggerInputElement);
+window.customElements.define('plumb-tagger', PlumbTaggerElement);

@@ -5,8 +5,14 @@
 </head>
 
 <body>
+    <style>
+        #input2 {
+            --plumb-tagger-tag-background-color: red;
+            --plumb-tagger-tag-color: white;
+        }
+    </style>
     <h1>Type some text and press enter to create a tag</h1>
-    <tagger-input id="input" value="[&quot;Angular&quot;]" style="max-width:300px;"></tagger-input>
+    <plumb-tagger id="input1" value='["Angular"]' style="max-width:300px;"></plumb-tagger>
     <script src="dist/index.js"></script>
 </body>
 
