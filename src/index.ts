@@ -203,4 +203,4 @@ class PlumbTaggerElement extends HTMLElement {
     }
 }
 
-window.customElements.define('plumb-tagger', PlumbTaggerElement);
+window.customElements.define('tagger-input', PlumbTaggerElement);

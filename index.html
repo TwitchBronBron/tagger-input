@@ -6,7 +6,7 @@
 
 <body>
     <h1>Type some text and press enter to create a tag</h1>
-    <plumb-tagger id="input1" value="['Angular', 'React']" style="max-width:300px;" onchange="customChangeHandler"></plumb-tagger>
+    <tagger-input id="input1" value="['Angular', 'React']" style="max-width:300px;" onchange="customChangeHandler"></tagger-input>
     <br />
     <b>Events</b>
     <div id="event-output"></div>
@@ -19,6 +19,16 @@
             document.getElementById('event-output').innerHTML += '<div>onchange addEventListener: ' + JSON.stringify(event.detail) + '</div>';
         });
     </script>
+
+    <style>
+        #input2 {
+            --tagger-input-vertical-padding: 6px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+    <tagger-input id="input2" value="['Angular', 'React']" style="max-width:300px;" onchange="customChangeHandler"></tagger-input>
+
 </body>
 
 </html>

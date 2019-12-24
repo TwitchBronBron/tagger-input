@@ -34,20 +34,20 @@
     min-width: 0;
     padding-left: 6px;
     padding-right: 6px;
-    padding-top: var(--plumb-tagger-vertical-padding, 0);
-    padding-bottom: var(--plumb-tagger-vertical-padding, 0);
-    margin-top: calc(-1 * var(--plumb-tagger-vertical-padding, 0));
-    margin-bottom: calc(-1 * var(--plumb-tagger-vertical-padding, 0));
+    padding-top: var(--tagger-input-vertical-padding, 0);
+    padding-bottom: var(--tagger-input-vertical-padding, 0);
+    margin-top: calc(-1 * var(--tagger-input-vertical-padding, 0));
+    margin-bottom: calc(-1 * var(--tagger-input-vertical-padding, 0));
     border: 0;
     border-radius: 3px;
     text-decoration: none;
     vertical-align: middle;
     white-space: nowrap;
-    background-color: var(--plumb-tagger-tag-background-color, #E1ECF4);
-    color: var(--plumb-tagger-tag-color, #2c5777);
+    background-color: var(--tagger-input-tag-background-color, #E1ECF4);
+    color: var(--tagger-input-tag-color, #2c5777);
     overflow: hidden;
     vertical-align: middle;
-    margin-left: 2px;
+    margin-left: 1px;
 }
 
 .tag-name {

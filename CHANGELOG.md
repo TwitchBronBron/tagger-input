@@ -9,4 +9,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - initial project release
 
 
-[0.1.0]: https://github.com/TwitchBronBron/plumb-tagger/v0.1.0
+[0.1.0]: https://github.com/TwitchBronBron/tagger-input/v0.1.0

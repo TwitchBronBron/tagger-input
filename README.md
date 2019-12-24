@@ -6,9 +6,9 @@ An HTML custom element that supports adding multiple text tags.
 ## Usage
 
 ```html
-<plumb-tagger value="['Predefined', 'Values']" onchange="console.log('It changed!', event)"></plumb-tagger>
+<tagger-input value="['Predefined', 'Values']" onchange="console.log('It changed!', event)"></tagger-input>
 
-<plumb-tagger id="tagger2"></plumb-tagger>
+<tagger-input id="tagger2"></tagger-input>
 <script>
     document.getElementById('tagger2').addEventListener('change', (event)=>{
         console.log('It changed', event);
@@ -19,7 +19,7 @@ An HTML custom element that supports adding multiple text tags.
 ## Attributes
 | Name  | Description |
 |-------|-------------|
-| `value`| The value of the `plumb-tagger` input. This can be set from html, and will also be updated as the JSON.stringify text from the `plumb-tagger` element |
+| `value`| The value of the `tagger-input` input. This can be set from html, and will also be updated as the JSON.stringify text from the `tagger-input` element |
 | `onchange` | See `change` in [events](#events) table below |
 
 ## Events
